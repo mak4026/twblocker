@@ -16,8 +16,6 @@
     - else
       Login:
       = link_to 'Twitter',  '/auth/twitter'
-      = link_to 'Facebook', '/auth/facebook'
-      = link_to 'GitHub',   '/auth/github'
 
     = simple_format(flash[:notice], style: "color: green;") if flash[:notice].present?
     = simple_format(flash[:alert], style: "color: red;")    if flash[:alert].present?
