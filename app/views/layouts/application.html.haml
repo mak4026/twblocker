@@ -1,4 +1,4 @@
-!!!
+!!! 5
 %html
   %head
     %title= Settings.app_name
@@ -6,24 +6,43 @@
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  %body{ class: [controller_name, action_name], id: [controller_name, action_name] }
-    = link_to Settings.app_name, :root
+  %body
+    %nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", "data-target" => "#twnav"}
+            %span.sr-only メニュー
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to Settings.app_name_short, :root, class: "navbar-brand"
 
-    - if signed_in?
-      = render partial: '/layouts/user_icon', locals: { user: current_user, size: "18x18", klass: "margin_minus2" }
-      = link_to "Top",    root_path
-      = link_to "Logout", logout_path
-    - else
-      Login:
-      = link_to 'Twitter',  '/auth/twitter'
+        #twnav.collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            %li
+              %a{"href" => "#"} Link1
+            %li
+              %a{"href" => "#"} Link2
+            %li
+              %a{"href" => "#"} Link3
+    .container
+      = link_to Settings.app_name, :root
 
-    = simple_format(flash[:notice], style: "color: green;") if flash[:notice].present?
-    = simple_format(flash[:alert], style: "color: red;")    if flash[:alert].present?
+      - if signed_in?
+        = render partial: '/layouts/user_icon', locals: { user: current_user, size: "18x18", klass: "margin_minus2" }
+        = link_to "Top",    root_path
+        = link_to "Logout", logout_path
+      - else
+        Login:
+        = link_to 'Twitter',  '/auth/twitter'
 
-    = yield
+      = simple_format(flash[:notice], style: "color: green;") if flash[:notice].present?
+      = simple_format(flash[:alert], style: "color: red;")    if flash[:alert].present?
 
-    %br/
-    %br/
+      = yield
+
+      %br/
+      %br/
 
     %center
       Developed by YOUR_NAME

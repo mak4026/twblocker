@@ -14,7 +14,7 @@ gem 'sqlite3'
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-gem 'bootstrap'
+gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'jquery-rails'   # Rails5移行必ず導入する
 gem 'jquery-ui-rails'
