@@ -29,6 +29,7 @@
               %li
                 = link_to 'Twitterでログイン',  '/auth/twitter'
     .container
+      = simple_format(flash[:success], class: "alert alert-success") if flash[:success].present?
       = simple_format(flash[:notice], class: "alert alert-info") if flash[:notice].present?
       = simple_format(flash[:alert], class: "alert alert-danger")    if flash[:alert].present?
 

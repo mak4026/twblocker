@@ -4,17 +4,17 @@
     %span.target-name= @target.name
     %span.target-id= "(@#{@target.screen_name})"
     さんにリプライを送っている人が
-    %span.block-count= @tweets.count
+    %span.block-count= @users.count
     人見つかりました
 
   %p#block-button
-    = form_tag(controller: 'top', action: 'block', method: :post) do
+    = form_tag(controller: 'top', action: 'block') do
+      = hidden_field(:target, :data, value: {target_id: @target.id, max_id: @max_id, since_id: @since_id}.to_json)
       = button_tag("ブロックする", class: "btn btn-danger btn-block btn-lg")
 
 %ul#block_ids.list-group
-  - @tweets.each do |tweet|
+  - @users.each do |user|
     %li.list-group-item
-      - user = tweet.user
       = link_to image_tag(user.profile_image_uri_https, size:"60x60", class: "icon-twitter"), "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name
       .account
         = link_to "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name do

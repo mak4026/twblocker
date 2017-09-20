@@ -10,21 +10,39 @@ class TopController < ApplicationController
     if !valid_id_regexp.match?(target_id)
       redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください' and return
     end
-    twitter_auth = current_user.authentications.find_by(provider: "twitter")
-    client = Twitter::REST::Client.new do |config|
-        config.consumer_key        = Settings.twitter_key
-        config.consumer_secret     = Settings.twitter_secret
-        config.access_token        = twitter_auth.token
-        config.access_token_secret = twitter_auth.secret
-    end
+    client = make_client(current_user)
     begin
       @target = client.user("@#{target_id}")
       @tweets = client.search("to:@#{target_id}", count: 10)
+      @users = @tweets.map { |t| t.user }.uniq
+      @since_id, @max_id = @tweets.minmax{ | a, b |
+        a.id <=> b.id
+      }.map { |t| t.id }
     rescue Twitter::Error::NotFound => e
       redirect_to :root, alert: "@#{@target_id}が見つかりませんでした" and return
     end
   end
 
   def block
+    data = JSON.parse(params['target']['data'])
+    target_id = data['target_id']
+    max_id = data['max_id']
+    since_id = data['since_id']
+    client = make_client(current_user)
+    # tweets = client.search("to:@#{target_id}", count: 10)
+    redirect_to :root, flash: {success: "#{target_id}: #{max_id}: #{since_id}" }
+  end
+
+  private
+
+  def make_client(user)
+    twitter_auth = user.authentications.first
+    client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = Settings.twitter_key
+        config.consumer_secret     = Settings.twitter_secret
+        config.access_token        = twitter_auth.token
+        config.access_token_secret = twitter_auth.secret
+    end
+    return client
   end
 end
