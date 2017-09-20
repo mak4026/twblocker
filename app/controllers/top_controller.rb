@@ -8,19 +8,27 @@ class TopController < ApplicationController
     target_id = params[:twitter_id]
     valid_id_regexp = Regexp.compile("[0-9a-zA-Z_]{1,15}")
     if !valid_id_regexp.match?(target_id)
-      redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください' and return
+      redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください。' and return
     end
     client = make_client(current_user)
     begin
       @target = client.user("@#{target_id}")
+      @tweets = client.search("to:#{target_id}", count: 10).take(100)
+      if @tweets.count == 0
+        redirect_to :root, alert: "@#{target_id}にリプライを送っている人が見つかりませんでした。" and return
+      end
+      @blocked_ids = client.blocked_ids.attrs[:ids]
     rescue Twitter::Error::NotFound => e
-      redirect_to :root, alert: "@#{target_id}が見つかりませんでした" and return
+      redirect_to :root, alert: "@#{target_id}が見つかりませんでした。(#{e.to_s})" and return
+    rescue Twitter::Error::TooManyRequests => e
+      redirect_to :root, alert: "API叩きすぎで怒られました。時間をあけて再度お試しください。(#{e.to_s})" and return
     end
-    @tweets = client.search("to:#{target_id}", count: 10)
-    if @tweets.count == 0
-      redirect_to :root, alert: "@#{target_id}にリプライを送っている人が見つかりませんでした" and return
+    @users = @tweets.map { |t| t.user }.uniq.reject{ |u|
+      @blocked_ids.include?(u.id)
+    }
+    if @users.count == 0
+        redirect_to :root, alert: "ブロックできる人が見つかりませんでした。" and return
     end
-    @users = @tweets.map { |t| t.user }.uniq
     @since_id, @max_id = @tweets.minmax{ | a, b |
       a.id <=> b.id
     }.map { |t| t.id }
