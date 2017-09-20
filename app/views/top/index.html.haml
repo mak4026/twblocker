@@ -4,9 +4,9 @@
     特定のアカウントにリプライを飛ばしているアカウントをまとめてブロックするツールです.
 
 .col-md-4.col-sm-8
-  #twid-input.input-group
-    %span.input-group-addon @
-    = form_tag("#") do
-      = text_field :title, :name, class: "form-control", placeholder: "Twitter ID"
-    %span.input-group-btn
-      = button_tag("Good-Bye!", class: "btn btn-danger")
+  = form_tag(controller: 'top', action: 'confirm') do
+    #twid-input.input-group
+      %span.input-group-addon @
+      = text_field_tag :twitter_id, nil, class: "form-control", placeholder: "Twitter ID"
+      %span.input-group-btn
+        = button_tag("Good-Bye!", class: "btn btn-danger")

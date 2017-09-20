@@ -3,4 +3,8 @@ class TopController < ApplicationController
 
   def index
   end
+
+  def confirm
+    @target_id = params[:twitter_id]
+  end
 end
