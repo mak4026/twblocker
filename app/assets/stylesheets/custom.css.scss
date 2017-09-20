@@ -2,6 +2,19 @@
   margin-right: 10px;
 }
 
+#confirm{
+  font-size: 120%;
+  margin-bottom: 10px;
+  .target-name, .block-count{
+    font-weight: bold;
+    font-size: 150%;
+  }
+  .target-id{
+    color: gray;
+    margin: 0px;
+  }
+}
+
 #block_ids .list-group-item .icon-twitter{
   margin-right: 10px;
   float: left;
