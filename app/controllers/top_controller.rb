@@ -13,14 +13,17 @@ class TopController < ApplicationController
     client = make_client(current_user)
     begin
       @target = client.user("@#{target_id}")
-      @tweets = client.search("to:#{target_id}", count: 10)
-      @users = @tweets.map { |t| t.user }.uniq
-      @since_id, @max_id = @tweets.minmax{ | a, b |
-        a.id <=> b.id
-      }.map { |t| t.id }
     rescue Twitter::Error::NotFound => e
-      redirect_to :root, alert: "@#{@target_id}が見つかりませんでした" and return
+      redirect_to :root, alert: "@#{target_id}が見つかりませんでした" and return
     end
+    @tweets = client.search("to:#{target_id}", count: 10)
+    if @tweets.count == 0
+      redirect_to :root, alert: "@#{target_id}にリプライを送っている人が見つかりませんでした" and return
+    end
+    @users = @tweets.map { |t| t.user }.uniq
+    @since_id, @max_id = @tweets.minmax{ | a, b |
+      a.id <=> b.id
+    }.map { |t| t.id }
   end
 
   def block
