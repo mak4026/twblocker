@@ -1,10 +1,15 @@
 %div#confirm
-  最近
-  %span.target-name= @target.name
-  %span.target-id= "(@#{@target.screen_name})"
-  さんにリプライを送っている人が
-  %span.block-count= @tweets.count
-  人見つかりました
+  %p
+    最近
+    %span.target-name= @target.name
+    %span.target-id= "(@#{@target.screen_name})"
+    さんにリプライを送っている人が
+    %span.block-count= @tweets.count
+    人見つかりました
+
+  %p#block-button
+    = form_tag(controller: 'top', action: 'block', method: :post) do
+      = button_tag("ブロックする", class: "btn btn-danger btn-block btn-lg")
 
 %ul#block_ids.list-group
   - @tweets.each do |tweet|

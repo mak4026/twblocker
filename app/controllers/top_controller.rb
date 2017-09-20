@@ -24,4 +24,7 @@ class TopController < ApplicationController
       redirect_to :root, alert: "@#{@target_id}が見つかりませんでした" and return
     end
   end
+
+  def block
+  end
 end
