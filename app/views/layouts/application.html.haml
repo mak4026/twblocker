@@ -21,12 +21,8 @@
           %ul.nav.navbar-nav
             - if signed_in?
               %li
-                / = render partial: '/layouts/user_icon', locals: { user: current_user, size: "18x18", klass: "margin_minus2" }
-                = render partial: '/layouts/user_icon', locals: { user: current_user, size: "20x20", klass: "icon-twitter"}
-              %li
                 - if current_user.present?
-                  = link_to_if current_user.name.present?, current_user.name + "でログイン中", "#{Settings[current_user.last_login_provider + '_page']}#{current_user.name}", target: '_blank'
-
+                  = link_to_if current_user.name.present?, image_tag(current_user.https_image, size: "20x20", class: "icon-twitter") + current_user.name + " でログイン中", "#{Settings[current_user.last_login_provider + '_page']}#{current_user.name}", target: '_blank'
               %li
                 = link_to "Logout", logout_path
             - else
