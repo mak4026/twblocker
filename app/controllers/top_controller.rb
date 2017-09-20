@@ -32,7 +32,7 @@ class TopController < ApplicationController
     tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1)
     users = tweets.map { |t| t.user }.uniq
     blocked_users = client.block(users)
-    redirect_to :root, flash: {success: "#{target_name}: #{max_id}: #{since_id}, #{blocked_users[0].screen_name}" }
+    redirect_to :root, flash: {success: "#{blocked_users.count} 人のブロックに成功しました" }
   end
 
   private
