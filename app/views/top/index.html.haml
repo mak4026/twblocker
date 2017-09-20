@@ -9,4 +9,4 @@
       %span.input-group-addon @
       = text_field_tag :twitter_id, nil, class: "form-control", placeholder: "Twitter ID"
       %span.input-group-btn
-        = button_tag("Good-Bye!", name: nil, class: "btn btn-danger")
+        = button_tag("Good-Bye!", name: nil, class: "btn btn-danger", data: {disable_with: "検索中..."})
