@@ -9,7 +9,7 @@
 
   %p#block-button
     = form_tag(controller: 'top', action: 'block') do
-      = hidden_field(:target, :data, value: {target_id: @target.id, max_id: @max_id, since_id: @since_id}.to_json)
+      = hidden_field(:target, :data, value: {target_name: @target.screen_name, max_id: @max_id, since_id: @since_id}.to_json)
       = button_tag("ブロックする", class: "btn btn-danger btn-block btn-lg")
 
 %ul#block_ids.list-group

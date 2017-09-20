@@ -13,7 +13,7 @@ class TopController < ApplicationController
     client = make_client(current_user)
     begin
       @target = client.user("@#{target_id}")
-      @tweets = client.search("to:@#{target_id}", count: 10)
+      @tweets = client.search("to:#{target_id}", count: 10)
       @users = @tweets.map { |t| t.user }.uniq
       @since_id, @max_id = @tweets.minmax{ | a, b |
         a.id <=> b.id
@@ -25,12 +25,14 @@ class TopController < ApplicationController
 
   def block
     data = JSON.parse(params['target']['data'])
-    target_id = data['target_id']
+    target_name = data['target_name']
     max_id = data['max_id']
     since_id = data['since_id']
     client = make_client(current_user)
-    # tweets = client.search("to:@#{target_id}", count: 10)
-    redirect_to :root, flash: {success: "#{target_id}: #{max_id}: #{since_id}" }
+    tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1)
+    users = tweets.map { |t| t.user }.uniq
+    blocked_users = client.block(users)
+    redirect_to :root, flash: {success: "#{target_name}: #{max_id}: #{since_id}, #{blocked_users[0].screen_name}" }
   end
 
   private
