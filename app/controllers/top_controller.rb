@@ -39,9 +39,12 @@ class TopController < ApplicationController
     target_name = data['target_name']
     max_id = data['max_id']
     since_id = data['since_id']
+    blocked_ids = data['blocked_ids']
     client = make_client(current_user)
-    tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1)
-    users = tweets.map { |t| t.user }.uniq
+    tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
+    users = tweets.map { |t| t.user }.uniq.reject{ |u|
+      blocked_ids.include?(u.id)
+    }
     blocked_users = client.block(users)
     redirect_to :root, flash: {success: "#{blocked_users.count} 人のブロックに成功しました" }
   end
