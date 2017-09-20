@@ -10,5 +10,18 @@ class TopController < ApplicationController
     if !valid_id_regexp.match?(@target_id)
       redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください'
     end
+    twitter_auth = current_user.authentications.find_by(provider: "twitter")
+    client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = Settings.twitter_key
+        config.consumer_secret     = Settings.twitter_secret
+        config.access_token        = twitter_auth.token
+        config.access_token_secret = twitter_auth.secret
+    end
+    begin
+      @test = client.user(@target_id)
+
+    rescue Twitter::Error::NotFound => e
+      redirect_to :root, alert: "@#{@target_id}が見つかりませんでした"
+    end
   end
 end
