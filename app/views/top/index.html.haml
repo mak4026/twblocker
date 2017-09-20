@@ -1,1 +1,12 @@
-%h1= "Welcome to #{Settings.app_name}"
+.jumbotron
+  %h2= "#{Settings.app_name}"
+  %p
+    特定のアカウントにリプライを飛ばしているアカウントをまとめてブロックするツールです.
+
+.col-md-4.col-sm-8
+  #twid-input.input-group
+    %span.input-group-addon @
+    = form_tag("#") do
+      = text_field :title, :name, class: "form-control", placeholder: "Twitter ID"
+    %span.input-group-btn
+      = button_tag("Good-Bye!", class: "btn btn-danger")
