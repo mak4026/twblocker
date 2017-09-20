@@ -8,7 +8,7 @@ class TopController < ApplicationController
     @target_id = params[:twitter_id]
     valid_id_regexp = Regexp.compile("[0-9a-zA-Z_]{1,15}")
     if !valid_id_regexp.match?(@target_id)
-      redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください'
+      redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください' and return
     end
     twitter_auth = current_user.authentications.find_by(provider: "twitter")
     client = Twitter::REST::Client.new do |config|
@@ -19,9 +19,9 @@ class TopController < ApplicationController
     end
     begin
       @test = client.user(@target_id)
-
+      @tweets = client.search("to:@#{@target_id}", count: 10)
     rescue Twitter::Error::NotFound => e
-      redirect_to :root, alert: "@#{@target_id}が見つかりませんでした"
+      redirect_to :root, alert: "@#{@target_id}が見つかりませんでした" and return
     end
   end
 end

@@ -1,3 +1,29 @@
 .navbar .icon-twitter {
-  margin-right: 10px
+  margin-right: 10px;
+}
+
+#block_ids .list-group-item .icon-twitter{
+  margin-right: 10px;
+  float: left;
+}
+
+#block_ids .list-group-item .account{
+  a{
+    display:inline-block;
+    width: auto;
+    padding-right: 20px;
+  }
+  overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  .name{
+    color: #292F33;
+    font-weight: bold;
+    font-size: 150%;
+    margin: 0px;
+  }
+  .screen-name{
+    color: gray;
+    margin: 0px;
+  }
 }

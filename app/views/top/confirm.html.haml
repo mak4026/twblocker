@@ -3,3 +3,16 @@ confirm
 
 = @test.screen_name
 = @test.tweets_count
+
+%ul#block_ids.list-group
+  - @tweets.each do |tweet|
+    %li.list-group-item
+      - user = tweet.user
+      = link_to image_tag(user.profile_image_uri_https, size:"60x60", class: "icon-twitter"), "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name
+      .account
+        = link_to "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name do
+          %span.name
+            = user.name
+          %br
+          %span.screen-name
+            = "@"+user.screen_name
