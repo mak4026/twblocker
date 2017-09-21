@@ -24,7 +24,7 @@ class TopController < ApplicationController
       redirect_to :root, alert: "API叩きすぎで怒られました。時間をあけて再度お試しください。(#{e.to_s})" and return
     end
     @users = @tweets.map { |t| t.user }.uniq.reject{ |u|
-      @blocked_ids.include?(u.id)
+      @blocked_ids.include?(u.id) or u.id == @target.id
     }
     if @users.count == 0
         redirect_to :root, alert: "ブロックできる人が見つかりませんでした。" and return
@@ -43,7 +43,7 @@ class TopController < ApplicationController
     client = make_client(current_user)
     tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
     users = tweets.map { |t| t.user }.uniq.reject{ |u|
-      blocked_ids.include?(u.id)
+      blocked_ids.include?(u.id) or u.screen_name == target_name
     }
     blocked_users = client.block(users)
     redirect_to :root, flash: {success: "#{blocked_users.count} 人のブロックに成功しました" }
