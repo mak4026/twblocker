@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def authenticate
     unless signed_in?
       session[:request_url] = request.url
-      flash[:alert] = "ログインしてください"
+
       redirect_to :root and return
     end
   end
