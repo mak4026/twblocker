@@ -1,11 +1,11 @@
 !!! 5
 %html
   %head
-    %title= Settings.app_name
     = csrf_meta_tags
-
+    = render :partial => "layouts/meta_tags"
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
   %body
     %nav.navbar.navbar-inverse
       .container-fluid
