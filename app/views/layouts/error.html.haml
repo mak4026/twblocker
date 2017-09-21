@@ -1,0 +1,34 @@
+!!! 5
+%html
+  %head
+    %title= Settings.app_name
+    = csrf_meta_tags
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    %nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{"data-toggle" => "collapse", "data-target" => "#twnav"}
+            %span.sr-only メニュー
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to Settings.app_name_short, :root, class: "navbar-brand"
+
+        #twnav.collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            %li
+              = link_to "このサイトについて", about_path
+    .container
+      = simple_format(flash[:success], class: "alert alert-success") if flash[:success].present?
+      = simple_format(flash[:notice], class: "alert alert-info") if flash[:notice].present?
+      = simple_format(flash[:alert], class: "alert alert-danger")    if flash[:alert].present?
+
+      = yield
+
+      %br/
+      %br/
+
+    = render partial: "layouts/footer"

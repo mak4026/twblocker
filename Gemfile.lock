@@ -192,6 +192,10 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (12.1.0)
+    rambulance (0.4.0)
+      actionpack
+      activesupport
+      railties
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -283,6 +287,7 @@ DEPENDENCIES
   pg
   puma (~> 3.7)
   rails (~> 5.1.4)
+  rambulance
   sass-rails (~> 5.0)
   selenium-webdriver
   spring
