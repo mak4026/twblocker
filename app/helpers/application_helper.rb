@@ -3,7 +3,7 @@ module ApplicationHelper
     {
       site: Settings.app_name,
       reverse: true,
-      title: nil,
+      title: Settings.app_name,
       description: Settings.page_description,
       keywords: Settings.page_keywords,
       canonical: request.base_url,
