@@ -21,6 +21,12 @@ class Authentication < ApplicationRecord
     self.nickname = auth['info']['nickname'] if auth['info']['nickname'].present?
     self.image    = image_path               if image_path.present?
     self.email    = auth['info']['email']    if auth['info']['email'].present?
+
+    if auth['credentials'].present?
+      self.token  = auth['credentials']['token']
+      self.secret = auth['credentials']['secret']
+    end
+
     self.gender   = gender                   if gender.present?
     self.location = location                 if location.present?
     self.save!
