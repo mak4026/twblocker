@@ -19,12 +19,14 @@
 
         #twnav.collapse.navbar-collapse
           %ul.nav.navbar-nav
+            %li
+              = link_to "このサイトについて", about_path
             - if signed_in?
               %li
                 - if current_user.present?
                   = link_to_if current_user.name.present?, image_tag(current_user.https_image, size: "20x20", class: "icon-twitter") + current_user.name + " でログイン中", "#{Settings[current_user.last_login_provider + '_page']}#{current_user.name}", target: '_blank'
               %li
-                = link_to "Logout", logout_path
+                = link_to "ログアウト", logout_path
             - else
               %li
                 = link_to 'Twitterでログイン',  '/auth/twitter'

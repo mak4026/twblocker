@@ -1,5 +1,6 @@
 app_name: '公式アカにリプライ飛ばす奴をブロックする奴'
 app_name_short: 'ブロック奴'
+app_version: "0.1.0"
 
 twitter_page:  'https://twitter.com/'
 facebook_page: 'https://www.facebook.com/'

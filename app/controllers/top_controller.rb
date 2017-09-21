@@ -4,6 +4,9 @@ class TopController < ApplicationController
   def index
   end
 
+  def about
+  end
+
   def confirm
     target_id = params[:twitter_id]
     valid_id_regexp = Regexp.compile("[0-9a-zA-Z_]{1,15}")
