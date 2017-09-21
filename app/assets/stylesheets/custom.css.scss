@@ -2,6 +2,22 @@
   margin-right: 10px;
 }
 
+#index-body {
+  margin-bottom: 30px;
+  height: auto;
+  overflow: hidden;
+}
+
+#howtouse {
+  ol{
+    font-size: large;
+    li{
+      margin-bottom: 10px;
+      line-height: 150%;
+    }
+  }
+}
+
 #confirm{
   font-size: 120%;
   margin-bottom: 20px;
