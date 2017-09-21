@@ -7,11 +7,13 @@
   - if signed_in?
     .col-md-6.col-sm-8
       = form_tag({controller: 'top', action: 'confirm'}, method: :get, enforce_utf8: false) do
-        #twid-input.input-group
-          %span.input-group-addon @
-          = text_field_tag :twitter_id, nil, class: "form-control", placeholder: "Twitter ID"
-          %span.input-group-btn
-            = button_tag("にリプしてる人を探す", name: nil, class: "btn btn-primary", data: {disable_with: "検索中..."})
+        #twid-input
+          .input-form.col-xs-12.col-sm-6
+            .input-group
+              %span.input-group-addon @
+              = text_field_tag :twitter_id, nil, class: "form-control", placeholder: "Twitter ID"
+          .submit-button.col-xs-12.col-sm-6
+            = button_tag("にリプしてる人を探す", name: nil, class: "btn btn-primary btn-block", data: {disable_with: "検索中..."})
   - else
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"
