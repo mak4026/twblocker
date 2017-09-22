@@ -48,10 +48,11 @@ class TopController < ApplicationController
     client = make_client(current_user)
     tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
     users = tweets.map { |t| t.user }.uniq.reject{ |u|
-      blocked_ids.include?(u.id) or u.screen_name == target_name or (!include_following and u.following)
+      blocked_ids.include?(u.id) or u.screen_name == target_name or (!include_following and u.following?)
     }
     blocked_users = client.block(users)
-    redirect_to :root, flash: {success: "#{blocked_users.count} 人のブロックに成功しました" }
+    block_count = blocked_users.count
+    redirect_to :root, flash: {success: "#{block_count} 人のブロックに成功しました\n#{block_count_message(block_count)}" }
   end
 
   private
@@ -65,5 +66,16 @@ class TopController < ApplicationController
         config.access_token_secret = twitter_auth.secret
     end
     return client
+  end
+
+  def block_count_message(count)
+    case count
+    when 1..9
+      "少しスッキリしましたね！"
+    when 10..50
+      "快適なTwitterライフに近づきました！"
+    else
+      "たのしー！"
+    end
   end
 end
