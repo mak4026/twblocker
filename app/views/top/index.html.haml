@@ -17,6 +17,17 @@
         .checkbox
           = check_box_tag(:include_following, true, false)
           = label_tag(:include_following, "フォロー中の人を含める")
+        #advanced-option
+          %a.btn.btn-default(data-toggle="collapse" data-target="#collapse-option")
+            高度な検索オプション
+          #collapse-option.collapse
+            %div
+              = label_tag(:any_words, "次の言葉のいずれかを含むリプライを検索")
+              = text_field_tag :any_words, nil, class: "form-control", placeholder: "詫び石 ナーフ"
+            %div
+              = label_tag(:none_words, "次の言葉のいずれかを含むリプライは除外")
+              = text_field_tag :none_words, nil, class: "form-control", placeholder: "お疲れ様 ありがとう"
+
   - else
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"

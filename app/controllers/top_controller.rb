@@ -17,7 +17,8 @@ class TopController < ApplicationController
     client = make_client(current_user)
     begin
       @target = client.user("@#{target_id}")
-      @tweets = client.search("to:#{target_id}", count: 10).take(100)
+      @adq = advanced_query(params[:any_words], params[:none_words])
+      @tweets = client.search("to:#{target_id} #{@adq}", count: 10).take(100)
       if @tweets.count == 0
         redirect_to :root, alert: "@#{target_id}にリプライを送っている人が見つかりませんでした。" and return
       end
@@ -45,8 +46,9 @@ class TopController < ApplicationController
     since_id = data['since_id']
     blocked_ids = data['blocked_ids']
     include_following = data['include_following']
+    adq = data['adq']
     client = make_client(current_user)
-    tweets = client.search("to:#{target_name}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
+    tweets = client.search("to:#{target_name} #{adq}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
     users = tweets.map { |t| t.user }.uniq.reject{ |u|
       blocked_ids.include?(u.id) or u.screen_name == target_name or (!include_following and u.following?)
     }
@@ -77,5 +79,17 @@ class TopController < ApplicationController
     else
       "たのしー！"
     end
+  end
+
+  def advanced_query(any_words, none_words)
+    any_q = words_split(any_words).join(' OR ')
+    none_q = words_split(none_words).map{ |s|
+        '-'+s
+      }.join(' ')
+    any_q + " " + none_q
+  end
+
+  def words_split(string)
+    string.gsub(/(^(\s|　)+)|((\s|　)+$)/, '').split(/[[:blank:]]+/)
   end
 end
