@@ -32,4 +32,4 @@
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"
 
-= render partial: "howtouse"
+= render partial: "howtouse", locals: { is_about: false }
