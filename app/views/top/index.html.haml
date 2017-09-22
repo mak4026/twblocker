@@ -14,6 +14,9 @@
               = text_field_tag :twitter_id, nil, class: "form-control", placeholder: "Twitter ID"
           .submit-button.col-xs-12.col-sm-6
             = button_tag("にリプしてる人を探す", name: nil, class: "btn btn-primary btn-block", data: {disable_with: "検索中..."})
+        .checkbox
+          = check_box_tag(:include_following, true, false)
+          = label_tag(:include_following, "フォロー中の人を含める")
   - else
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"

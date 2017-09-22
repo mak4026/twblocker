@@ -6,9 +6,15 @@
   margin-bottom: 30px;
   height: auto;
   overflow: hidden;
+  .checkbox {
+    input{
+      margin-left: 0px;
+    }
+  }
 }
 
 #twid-input{
+  overflow: hidden;
   .input-form{
     padding: 0px;
   }
