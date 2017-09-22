@@ -28,7 +28,11 @@ class TopController < ApplicationController
     rescue Twitter::Error::TooManyRequests => e
       redirect_to :root, alert: "API叩きすぎで怒られました。時間をあけて再度お試しください。(#{e.to_s})" and return
     end
-    @users = @tweets.map { |t| t.user }.uniq.reject{ |u|
+    @tweets_dict = {}
+    @users = @tweets.map { |t|
+        @tweets_dict[t.user] = t
+        t.user
+      }.uniq.reject{ |u|
       @blocked_ids.include?(u.id) or u.id == @target.id or (!@include_following and u.following?)
     }
     if @users.count == 0

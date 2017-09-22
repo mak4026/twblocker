@@ -54,8 +54,9 @@
 }
 
 #block_ids .list-group-item .icon-twitter{
+  display: inline-block;
+  vertical-align: top;
   margin-right: 10px;
-  float: left;
 }
 
 #block_ids .list-group-item .account{
@@ -64,7 +65,7 @@
     width: auto;
     padding-right: 5px;
   }
-  display: flex;
+  display: inline-block;
   overflow: hidden;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -80,5 +81,8 @@
   }
   .following{
     display: inline-block;
+  }
+  .tweets{
+    color: Silver;
   }
 }

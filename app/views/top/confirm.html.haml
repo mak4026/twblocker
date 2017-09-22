@@ -1,7 +1,5 @@
 - set_meta_tags title: "確認画面"
 
-%p= @test
-
 %div#confirm
   %p
     最近
@@ -18,15 +16,18 @@
 
 %ul#block_ids.list-group
   - @users.each do |user|
-    %li.list-group-item
-      = link_to image_tag(user.profile_image_uri_https, size:"60x60", class: "icon-twitter"), "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name
-      .account
-        = link_to "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name do
-          %span.name
-            = user.name
-          %br
-          %span.screen-name
-            = "@"+user.screen_name
-        - if user.following?
-          %div.following
-            %span.label.label-danger フォロー中
+    %li.list-group-item(style="overflow: auto;")
+      .col-sm-6.col-lg-4
+        = link_to image_tag(user.profile_image_uri_https, size:"60x60"), "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name, class: "icon-twitter"
+        .account
+          = link_to "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name do
+            %span.name
+              = user.name
+            %br
+            %span.screen-name
+              = "@"+user.screen_name
+          - if user.following?
+            %div.following
+              %span.label.label-danger フォロー中
+      .tweets.col-sm-6.col-lg-8
+        = @tweets_dict[user].text
