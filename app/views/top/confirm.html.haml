@@ -25,3 +25,6 @@
           %br
           %span.screen-name
             = "@"+user.screen_name
+        - if user.following
+          %div.following
+            %span.label.label-danger フォロー中

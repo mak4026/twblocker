@@ -49,8 +49,9 @@
   a{
     display:inline-block;
     width: auto;
-    padding-right: 20px;
+    padding-right: 5px;
   }
+  display: flex;
   overflow: hidden;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -63,5 +64,8 @@
   .screen-name{
     color: gray;
     margin: 0px;
+  }
+  .following{
+    display: inline-block;
   }
 }
