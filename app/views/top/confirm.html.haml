@@ -30,4 +30,4 @@
             %div.following
               %span.label.label-danger フォロー中
       .tweets.col-sm-6.col-lg-8
-        = @tweets_dict[user].text
+        = link_to @tweets_dict[user].text, @tweets_dict[user].url.to_s, target: '_blank'

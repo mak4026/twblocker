@@ -82,7 +82,9 @@
   .following{
     display: inline-block;
   }
-  .tweets{
-    color: Silver;
+}
+#block_ids .list-group-item .tweets{
+  a {
+    color: SlateGray;
   }
 }
