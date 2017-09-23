@@ -56,9 +56,15 @@ class TopController < ApplicationController
     users = tweets.map { |t| t.user }.uniq.reject{ |u|
       blocked_ids.include?(u.id) or u.screen_name == target_name or (!include_following and u.following?)
     }
-    blocked_users = client.block(users)
+    if params['mute']
+      blocked_users = client.mute(users)
+      act_msg = "ミュート"
+    else
+      blocked_users = client.block(users)
+      act_msg = "ブロック"
+    end
     block_count = blocked_users.count
-    redirect_to :root, flash: {success: "#{block_count} 人のブロックに成功しました\n#{block_count_message(block_count)}" }
+    redirect_to :root, flash: {success: "#{block_count} 人の#{act_msg}に成功しました\n#{block_count_message(block_count)}" }
   end
 
   private
