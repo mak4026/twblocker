@@ -84,7 +84,12 @@
   }
 }
 #block_ids .list-group-item .tweets{
+  display: none;
   a {
     color: SlateGray;
   }
+}
+
+input[type=checkbox]#tweet_display_check:checked ~ #block_ids .list-group-item .tweets{
+  display: block;
 }
