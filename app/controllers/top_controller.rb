@@ -32,6 +32,7 @@ class TopController < ApplicationController
         }
         @tweets += arr
         if(@tweets.count > 100)
+          @tweets = @tweets[0...100]
           break
         end
       }
