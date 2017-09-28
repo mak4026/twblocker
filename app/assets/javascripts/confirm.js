@@ -8,4 +8,7 @@ $(function() {
     });
     $(this).find("#block-target").val(JSON.stringify(ids));
   });
+  $("#block_ids :checkbox").change(function(){
+    $(this).parent().parent().toggleClass("disabled");
+  });
 });
