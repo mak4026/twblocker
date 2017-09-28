@@ -44,18 +44,8 @@ class TopController < ApplicationController
   end
 
   def block
-    data = JSON.parse(params['target']['data'])
-    target_name = data['target_name']
-    max_id = data['max_id']
-    since_id = data['since_id']
-    blocked_ids = data['blocked_ids']
-    include_following = data['include_following']
-    adq = data['adq']
+    users = JSON.parse(params['target']['data'])
     client = make_client(current_user)
-    tweets = client.search("to:#{target_name} #{adq}", count: 10, max_id: max_id+1, since_id: since_id-1).take(100)
-    users = tweets.map { |t| t.user }.uniq.reject{ |u|
-      blocked_ids.include?(u.id) or u.screen_name == target_name or (!include_following and u.following?)
-    }
     if params['mute']
       blocked_users = client.mute(users)
       act_msg = "ミュート"

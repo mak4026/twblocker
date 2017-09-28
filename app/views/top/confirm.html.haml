@@ -8,10 +8,9 @@
     さんにリプライを送っている人が
     %span.block-count= @users.count
     人見つかりました
-
-  %p#block-button
-    = form_tag(controller: 'top', action: 'block') do
-      = hidden_field(:target, :data, value: {target_name: @target.screen_name, max_id: @max_id, since_id: @since_id, blocked_ids: @blocked_ids, include_following: @include_following, adq: @adq}.to_json)
+  %p
+    = form_tag({controller: 'top', action: 'block'}, id: 'block-button') do
+      = hidden_field(:target, :data, value: nil, id: 'block-target')
       = button_tag("ブロックする", class: "btn btn-danger btn-block btn-lg", data: {disable_with: "ブロック処理中"})
       = button_tag("ミュートする", class: "btn btn-warning btn-block btn-lg", name: :mute, data: {disable_with: "ミュート処理中"})
 
@@ -21,17 +20,19 @@
 %ul#block_ids.list-group
   - @users.each do |user|
     %li.list-group-item(style="overflow: auto;")
-      .col-sm-6.col-lg-4
-        = link_to image_tag(user.profile_image_uri_https, size:"60x60"), "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name, class: "icon-twitter"
-        .account
-          = link_to "#{Settings["twitter_page"]}#{user.screen_name}", target: '_blank', title: user.name do
+      %label
+        %input.col-sm-1.col-lg-1(type="checkbox" checked="checked")
+        .col-sm-5.col-lg-4
+          = image_tag(user.profile_image_uri_https, size:"60x60", class: "icon-twitter")
+          .account
             %span.name
               = user.name
             %br
             %span.screen-name
               = "@"+user.screen_name
-          - if user.following?
-            %div.following
-              %span.label.label-danger フォロー中
-      .tweets.col-sm-6.col-lg-8
-        = link_to @tweets_dict[user].text, @tweets_dict[user].url.to_s, target: '_blank'
+
+            - if user.following?
+              %div.following
+                %span.label.label-danger フォロー中
+        .tweets.col-sm-6.col-lg-7
+          = link_to @tweets_dict[user].text, @tweets_dict[user].url.to_s, target: '_blank'

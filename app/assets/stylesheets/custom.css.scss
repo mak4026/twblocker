@@ -53,6 +53,15 @@
   }
 }
 
+#block_ids label {
+  display: block;
+  font-weight: normal;
+}
+
+#block_ids .list-group-item input[type=checkbox]{
+  transform: scale(1.2);
+}
+
 #block_ids .list-group-item .icon-twitter{
   display: inline-block;
   vertical-align: top;
@@ -66,6 +75,7 @@
     padding-right: 5px;
   }
   display: inline-block;
+  width: auto;
   overflow: hidden;
   padding-top: 5px;
   padding-bottom: 5px;
