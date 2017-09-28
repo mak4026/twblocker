@@ -1,3 +1,4 @@
+require 'set'
 class TopController < ApplicationController
   skip_before_action :authenticate
 
@@ -19,18 +20,18 @@ class TopController < ApplicationController
       @target = client.user("@#{target_id}")
       @adq = advanced_query(params[:any_words], params[:none_words])
       search = client.search("to:#{target_id} #{@adq}", count: 10)
-      @blocked_ids = client.blocked_ids.attrs[:ids]
-      @muted_ids = client.muted_ids.attrs[:ids]
+      @blocked_ids = Set.new(client.blocked_ids.attrs[:ids])
+      @muted_ids = Set.new(client.muted_ids.attrs[:ids])
 
       @tweets = []
       search.each_slice(100){ |arr|
-        arr.reject { |t|
+        a = arr.reject { |t|
           @blocked_ids.include?(t.user.id) \
           or @muted_ids.include?(t.user.id) \
           or t.user.id == @target.id \
           or (!@include_following and t.user.following?)
         }
-        @tweets += arr
+        @tweets += a
         if(@tweets.count > 100)
           @tweets = @tweets[0...100]
           break
