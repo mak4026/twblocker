@@ -25,9 +25,9 @@ class TopController < ApplicationController
       @tweets = []
       search.each_slice(100){ |arr|
         arr.reject { |t|
-          @blocked_ids.include?(t.user.id)
-          @muted_ids.include?(t.user.id)
-          or t.user.id == @target.id
+          @blocked_ids.include?(t.user.id) \
+          or @muted_ids.include?(t.user.id) \
+          or t.user.id == @target.id \
           or (!@include_following and t.user.following?)
         }
         @tweets += arr
