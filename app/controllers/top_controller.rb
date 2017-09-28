@@ -18,11 +18,27 @@ class TopController < ApplicationController
     begin
       @target = client.user("@#{target_id}")
       @adq = advanced_query(params[:any_words], params[:none_words])
-      @tweets = client.search("to:#{target_id} #{@adq}", count: 10).take(100)
+      search = client.search("to:#{target_id} #{@adq}", count: 10)
+      @blocked_ids = client.blocked_ids.attrs[:ids]
+      @muted_ids = client.muted_ids.attrs[:ids]
+
+      @tweets = []
+      search.each_slice(100){ |arr|
+        arr.reject { |t|
+          @blocked_ids.include?(t.user.id)
+          @muted_ids.include?(t.user.id)
+          or t.user.id == @target.id
+          or (!@include_following and t.user.following?)
+        }
+        @tweets += arr
+        if(@tweets.count > 100)
+          break
+        end
+      }
+
       if @tweets.count == 0
         redirect_to :root, alert: "@#{target_id}にリプライを送っている人が見つかりませんでした。" and return
       end
-      @blocked_ids = client.blocked_ids.attrs[:ids]
     rescue Twitter::Error::NotFound => e
       redirect_to :root, alert: "@#{target_id}が見つかりませんでした。(#{e.to_s})" and return
     rescue Twitter::Error::TooManyRequests => e
@@ -32,9 +48,7 @@ class TopController < ApplicationController
     @users = @tweets.map { |t|
         @tweets_dict[t.user] = t
         t.user
-      }.uniq.reject{ |u|
-      @blocked_ids.include?(u.id) or u.id == @target.id or (!@include_following and u.following?)
-    }
+      }.uniq
     if @users.count == 0
         redirect_to :root, alert: "ブロックできる人が見つかりませんでした。" and return
     end
