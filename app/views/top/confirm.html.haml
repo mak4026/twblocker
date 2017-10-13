@@ -8,6 +8,9 @@
     さんにリプライを送っている人が
     %span.block-count= @users.count
     人見つかりました
+  %p.rate_limit
+    残りAPI回数
+    = "#{@rate_limit[:remaining]} / #{@rate_limit[:limit]}"
   %p
     = form_tag({controller: 'top', action: 'block'}, id: 'block-button') do
       = hidden_field(:target, :data, value: nil, id: 'block-target')

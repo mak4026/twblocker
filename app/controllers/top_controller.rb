@@ -16,10 +16,11 @@ class TopController < ApplicationController
     end
     @include_following = params[:include_following]
     client = make_client(current_user)
+    @rate_limit = get_rate_limit_for_search(client)
     begin
       @target = client.user("@#{target_id}")
       @adq = advanced_query(params[:any_words], params[:none_words])
-      search = client.search("to:#{target_id} #{@adq}", count: 10)
+      search = client.search("to:#{target_id} #{@adq}", count: 100)
       @blocked_ids = Set.new(client.blocked_ids.attrs[:ids])
       @muted_ids = Set.new(client.muted_ids.attrs[:ids])
 
@@ -107,5 +108,9 @@ class TopController < ApplicationController
 
   def words_split(string)
     string.gsub(/(^(\s|　)+)|((\s|　)+$)/, '').split(/[[:blank:]]+/)
+  end
+
+  def get_rate_limit_for_search(client)
+    (Twitter::REST::Request.new(client, :get, '/1.1/application/rate_limit_status.json').perform)[:resources][:search][:'/search/tweets']
   end
 end
