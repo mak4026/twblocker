@@ -16,7 +16,6 @@ class TopController < ApplicationController
     end
     @include_following = params[:include_following]
     client = make_client(current_user)
-    @rate_limit = get_rate_limit_for_search(client)
     begin
       @target = client.user("@#{target_id}")
       @adq = advanced_query(params[:any_words], params[:none_words])
@@ -58,6 +57,7 @@ class TopController < ApplicationController
     @since_id, @max_id = @tweets.minmax{ | a, b |
       a.id <=> b.id
     }.map { |t| t.id }
+    @rate_limit = get_rate_limit_for_search(client)
   end
 
   def block
