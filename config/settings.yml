@@ -1,6 +1,6 @@
 app_name: '公式アカにリプライ飛ばす奴をブロックする奴'
 app_name_short: 'ブロック奴'
-app_version: "1.0.1"
+app_version: "1.0.2"
 page_description: 'Twitterで公式アカウントなどにリプライを送っている人を検索してまとめてブロックするツールです'
 page_keywords: 'Twitter ブロック 公式アカウント リプライ'
 
