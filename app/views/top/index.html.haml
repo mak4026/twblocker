@@ -27,7 +27,13 @@
             %div
               = label_tag(:none_words, "次の言葉のいずれかを含むリプライは除外")
               = text_field_tag :none_words, nil, class: "form-control", placeholder: "お疲れ様 ありがとう"
-
+      %br
+      %h4
+        継続してご利用いただいてる方へ
+      %p
+        %a{ href: 'https://monappy.jp/u/mak4026'}
+          投げ銭
+        していただけるといろいろありがたいです...何卒...
   - else
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"
