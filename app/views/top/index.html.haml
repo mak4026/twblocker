@@ -1,7 +1,10 @@
 .jumbotron
   %h2= "#{Settings.app_name}"
   %p
-    特定のアカウントにリプライを飛ばしているアカウントをまとめてブロックするツールです.
+    特定のアカウントにリプライを飛ばしているアカウントを、まとめてブロックしたりミュートしたりするツールです。
+  %br
+  %p
+    特定のワードを除外したり、特定のワードをリプライしてる人のみを絞り込んだり、ツイートを1つ1つ見ながらブロックすることも出来ます。
 
 #index-body
   - if signed_in?
@@ -31,9 +34,9 @@
       %h4
         継続してご利用いただいてる方へ
       %p
-        %a{ href: 'https://monappy.jp/u/mak4026'}
-          投げ銭
-        していただけるといろいろありがたいです...何卒...
+        %a{ href: 'http://amzn.asia/1J9d8BG'}
+          ほしいものリスト
+        から何かしら送っていただけると機能改善の糧になります．何卒...
   - else
     %div
       = button_to 'Twitterでログイン',  '/auth/twitter', class: "btn btn-primary btn-block btn-lg"
