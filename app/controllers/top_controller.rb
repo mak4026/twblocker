@@ -20,8 +20,8 @@ class TopController < ApplicationController
       @target = client.user("@#{target_id}")
       @adq = advanced_query(params[:any_words], params[:none_words])
       search = client.search("to:#{target_id} #{@adq}", count: 100)
-      @blocked_ids = Set.new(client.blocked_ids.to_h[:ids])
-      @muted_ids = Set.new(client.muted_ids.to_h[:ids])
+      @blocked_ids = Set.new(client.blocked_ids.to_a)
+      @muted_ids = Set.new(client.muted_ids.to_a)
 
       @tweets = []
       search.each_slice(100){ |arr|
