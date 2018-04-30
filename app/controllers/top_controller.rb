@@ -11,11 +11,27 @@ class TopController < ApplicationController
   end
 
   def confirm
-    target_id = params[:twitter_id]
+    if params[:from_id]
+      target_id = params[:twitter_id]
 
-    if !valid_id_regexp.match?(target_id)
-      redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください。' and return
+      if !valid_id_regexp.match?(target_id)
+        redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください。' and return
+      end
+
+    elsif params[:from_url]
+      target_url = params[:status_url]
+
+      if !valid_status_url_regexp.match?(target_url)
+        redirect_to :root, alert: 'ツイートのURLを正しく指定してください。' and return
+      end
+      match_result = valid_status_url_regexp.match(target_url)
+      target_id = match_result[1]
+      target_status = match_result[2].to_i
+    else
+      redirect_to :root, alert: '@から始まるIDかツイートのURLを指定してください。' and return
     end
+
+
     @include_following = params[:include_following]
     client = make_client(current_user)
     begin
@@ -33,6 +49,11 @@ class TopController < ApplicationController
           or t.user.id == @target.id \
           or (!@include_following and t.user.following?)
         }
+        if params[:from_url]
+          a.select! { |t|
+            t.in_reply_to_status_id == target_status
+          }
+        end
         @tweets += a
         if(@tweets.count > 100)
           @tweets = @tweets[0...100]
