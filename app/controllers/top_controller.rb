@@ -1,3 +1,5 @@
+require 'net/http'
+require 'uri'
 require 'set'
 class TopController < ApplicationController
   skip_before_action :authenticate
@@ -10,7 +12,7 @@ class TopController < ApplicationController
 
   def confirm
     target_id = params[:twitter_id]
-    valid_id_regexp = Regexp.compile("[0-9a-zA-Z_]{1,15}")
+
     if !valid_id_regexp.match?(target_id)
       redirect_to :root, alert: 'Twitterのスクリーンネーム(@から始まるID)を指定してください。' and return
     end
@@ -113,4 +115,26 @@ class TopController < ApplicationController
   def get_rate_limit_for_search(client)
     (Twitter::REST::Request.new(client, :get, '/1.1/application/rate_limit_status.json').perform)[:resources][:search][:'/search/tweets']
   end
+
+  def valid_id_regexp()
+    Regexp.compile("[0-9a-zA-Z_]{1,15}")
+  end
+
+  def valid_status_url_regexp()
+    Regexp.compile('^https?:\/\/twitter\.com\/(?:#!\/)?(.*)\/status(?:es)?\/(\d+)$')
+  end
+
+  def expand_url(url)
+  begin
+    response = Net::HTTP.get_response(URI.parse(url))
+  rescue
+    return url
+  end
+  case response
+  when Net::HTTPRedirection
+    expand_url(response['location'])
+  else
+    url
+  end
+end
 end
