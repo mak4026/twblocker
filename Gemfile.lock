@@ -193,7 +193,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.1.0)
+    rake (13.0.1)
     rambulance (0.4.0)
       actionpack
       activesupport
