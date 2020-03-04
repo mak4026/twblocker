@@ -164,7 +164,7 @@ GEM
       rack
     pg (0.21.0)
     public_suffix (3.0.0)
-    puma (3.10.0)
+    puma (3.12.4)
     rack (2.0.3)
     rack-test (0.7.0)
       rack (>= 1.0, < 3)
@@ -288,7 +288,7 @@ DEPENDENCIES
   meta-tags
   minimum-omniauth-scaffold
   pg
-  puma (~> 3.7)
+  puma (~> 3.12)
   rails (~> 5.1.4)
   rambulance
   sass-rails (~> 5.0)
